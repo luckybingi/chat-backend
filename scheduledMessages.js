@@ -16,16 +16,19 @@ module.exports = function scheduleMessages(io) {
   cron.schedule("* * * * *", async () => {
 
     const now = new Date(); 
-    console.log("⏰ Cron job triggered at", new Date().toLocaleString())
-    
-console.log("🕐 Server Time:", new Date().toISOString());
-
+//     console.log("⏰ Cron job triggered at", new Date().toLocaleString())
+// console.log("time",new Date().toISOString);
     try {
+      const allMessages = await ScheduledMessage.find({});
+console.log(`📄 Total scheduled messages in DB: ${allMessages.length}`);
+console.log(`backend time ${now}`);
       // 1) Find all pending messages
-      const pending = await ScheduledMessage.find({
-        delivered: false,
-        scheduledTime: { $lte: now },
-      });
+    const pending = await ScheduledMessage.find({
+  delivered: false,
+  scheduledTime: { $lte: new Date() }, // due now or earlier
+});
+
+      
 
 console.log(`🔎 Found ${pending.length} scheduled message(s)`);
 

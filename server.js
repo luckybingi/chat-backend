@@ -131,6 +131,11 @@ const io = new Server(server, {
   },
 });
 
+global.io = io; // Make io available globally (if used in scheduler)
+
+// ✅ Import cron job at the end
+require("./scheduledMessages");
+
 // Socket.IO Events
 io.on("connection", (socket) => {
   console.log("✅ New client connected!");
